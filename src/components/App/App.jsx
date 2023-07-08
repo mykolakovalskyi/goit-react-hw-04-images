@@ -7,13 +7,13 @@ import Loader from 'components/Loader/Loader';
 import Modal from 'components/Modal/Modal';
 
 export default function App() {
-  const { searchQuery, setSearchQuery } = useState('');
-  const { picturesData, setPicturesData } = useState([]);
-  const { isLoading, setIsLoading } = useState(false);
-  const { currentPage, setCurrentPage } = useState(1);
-  const { totalPages, setTotalPages } = useState(null);
-  const { modalImg, setModalImg } = useState({});
-  const { isModalOpen, setIsModalOpen } = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [picturesData, setPicturesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
+  const [modalImg, setModalImg] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = query => {
     setSearchQuery(query);
@@ -61,11 +61,13 @@ export default function App() {
   return (
     <>
       <Searchbar onSubmit={handleSubmit}></Searchbar>
-      <ImageGallery data={picturesData} openModal={openModal}></ImageGallery>
-      {isLoading && <Loader />}
-      {picturesData.length !== 0 && currentPage !== totalPages && (
-        <Button onClick={loadMore} />
+      {searchQuery !== '' && (
+        <ImageGallery data={picturesData} openModal={openModal}></ImageGallery>
       )}
+      {isLoading && <Loader />}
+      {picturesData.length !== 0 &&
+        searchQuery !== '' &&
+        currentPage !== totalPages && <Button onClick={loadMore} />}
       {isModalOpen && (
         <Modal onModalClose={onModalClose} modalImg={modalImg}></Modal>
       )}

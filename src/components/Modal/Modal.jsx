@@ -17,13 +17,10 @@ export default function Modal({ onModalClose, modalImg }) {
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
-  }, []);
-
-  useEffect(() => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  });
 
   const { url, id } = modalImg;
 
