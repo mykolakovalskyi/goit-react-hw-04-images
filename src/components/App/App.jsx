@@ -40,22 +40,26 @@ export default function App() {
   }, [searchQuery]);
 
   useEffect(() => {
-    setIsLoading(true);
-    getPictures(searchQuery, currentPage)
-      .then(response => {
-        if (response.data.hits.length === 0) {
-          alert('Sorry, but no pictures were found');
-        } else {
-          setPicturesData(prevState => [...prevState, ...response.data.hits]);
-          setTotalPages(Math.ceil(response.data.totalHits / 12));
-        }
-      })
-      .catch(error => {
-        alert(error.massage);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const func = async () => {
+      setIsLoading(true);
+      await getPictures(searchQuery, currentPage)
+        .then(response => {
+          if (response.data.hits.length === 0) {
+            alert('Sorry, but no pictures were found');
+          } else {
+            setPicturesData(prevState => [...prevState, ...response.data.hits]);
+            setTotalPages(Math.ceil(response.data.totalHits / 12));
+          }
+        })
+        .catch(error => {
+          alert(error.massage);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    };
+
+    func();
   }, [searchQuery, currentPage]);
 
   return (
